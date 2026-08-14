@@ -51,17 +51,22 @@ class FeedbackController extends GetxController {
 
   Future<void> fetchPatientDetail(String encryptVal) async {
     isLoading.value = true;
-    patData.value = await _commonMethods.fetchModelData(
-      url: Config.connectUrl,
-      body: {
-        "strQuery":
-            "exec astil_mapps.dbo.sp_deptfeedback_encrpdecrp @curl = '$encryptVal',@opt = 2",
-        "strCon": "BB_CONSTR",
-      },
-      fromJson: (json) => PatientDetailModel.fromJson(json),
-    );
-    print("Pat Data : ${patData.first.patientName}");
-    isLoading.value = false;
+    try {
+      patData.value = await _commonMethods.fetchModelData(
+        url: Config.connectUrl,
+        body: {
+          "strQuery":
+              "exec astil_mapps.dbo.sp_deptfeedback_encrpdecrp @curl = '$encryptVal',@opt = 2",
+          "strCon": "BB_CONSTR",
+        },
+        fromJson: (json) => PatientDetailModel.fromJson(json),
+      );
+      // print("Pat Data : ${patData.first.patientName}");
+    } catch (e) {
+      isLoading.value = false;
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> saveFeedBack({required String answerEncode}) async {
@@ -71,11 +76,11 @@ class FeedbackController extends GetxController {
       body: {
         "strQuery":
             "exec astil_mapps..sp_qrdeptfeedback @opt = 3,"
-                "@ipattype = 1,@cattendername = '',"
-                "@cattendermobile = '${patData.first.mobile}',"
-                "@cregno = '${patData.first.regNo}',"
-                "@cpatientname = '${patData.first.patientName}',"
-                "@Answertext = '$answerEncode'",
+            "@ipattype = 1,@cattendername = '',"
+            "@cattendermobile = '${patData.first.mobile}',"
+            "@cregno = '${patData.first.regNo}',"
+            "@cpatientname = '${patData.first.patientName}',"
+            "@Answertext = '$answerEncode'",
         "strCon": "BB_CONSTR",
       },
     );

@@ -312,7 +312,7 @@ class _MetaRow extends StatelessWidget {
     final parts = <Widget>[];
 
     if (patientId != null) {
-      parts.add(_metaChip('ID: $patientId'));
+      parts.add(_metaChip('Reg No: $patientId'));
     }
     if (department != null) {
       parts.add(_metaChip(department!));

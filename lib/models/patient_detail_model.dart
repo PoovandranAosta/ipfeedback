@@ -8,6 +8,7 @@ class PatientDetailModel {
   String? startDate;
   String? endDate;
   String? mobile;
+  String? isSubmitted;
 
   PatientDetailModel({
     this.iIPId,
@@ -19,6 +20,7 @@ class PatientDetailModel {
     this.startDate,
     this.endDate,
     this.mobile,
+    this.isSubmitted
   });
 
   PatientDetailModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,7 @@ class PatientDetailModel {
     startDate = json['StartDate'];
     endDate = json['endDate'];
     mobile = json['mobile'];
+    isSubmitted = json['isSubmitted'];
   }
 
   Map<String, dynamic> toJson() {
@@ -44,6 +47,7 @@ class PatientDetailModel {
     data['StartDate'] = this.startDate;
     data['endDate'] = this.endDate;
     data['mobile'] = this.mobile;
+    data['isSubmitted'] = this.isSubmitted;
     return data;
   }
 }

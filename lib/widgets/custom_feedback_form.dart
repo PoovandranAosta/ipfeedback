@@ -1110,16 +1110,16 @@ class _DynamicFeedbackFormState extends State<DynamicFeedbackForm> {
   // ── Build ─────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
-    FeedbackController feedbackController = Get.put(FeedbackController());
-
-    if(feedbackController.isLoading.value){
-      return Center(
-        child: CustomThreeArchedLoader(
-          size: 60,
-          color: Colors.blue,
-        ),
-      );
-    }
+    // FeedbackController feedbackController = Get.put(FeedbackController());
+    //
+    // if(feedbackController.isLoading.value){
+    //   return Center(
+    //     child: CustomThreeArchedLoader(
+    //       size: 60,
+    //       color: Colors.blue,
+    //     ),
+    //   );
+    // }
 
     if (widget.questions.isEmpty) {
       return const Center(
