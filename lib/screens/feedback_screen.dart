@@ -32,7 +32,7 @@ class Feedback extends StatelessWidget {
 
           return Column(
             children: [
-              // if (patient.isSubmitted == '1') ...[
+              if (patient.isSubmitted == '1') ...[
                 buildHeader(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -41,7 +41,7 @@ class Feedback extends StatelessWidget {
                     patientId: '${patient.regNo}',
                   ),
                 ),
-              // ],
+              ],
               if (patient.isSubmitted == '0') ...[
                 Expanded(
                   child: DynamicFeedbackForm(
