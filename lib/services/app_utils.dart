@@ -1,8 +1,10 @@
+
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../config/tamil_text.dart';
 import '../routes/app_routes.dart';
 import 'api_services.dart';
 
@@ -12,7 +14,7 @@ class AppUtils {
   /// Splash Screen
   static Future<void> splashScreen() async {
     Future.delayed(const Duration(seconds: 1), () {
-      Get.offAllNamed(AppRoutes.form);
+      Get.offAllNamed(AppRoutes.dashboard);
     });
   }
 

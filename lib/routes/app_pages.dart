@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ipfeedback/screens/dashboard_screen.dart';
 import '../screens/feedback_screen.dart';
 import '../screens/not_found_screen.dart';
 import '../screens/splash_screen.dart';
@@ -11,5 +12,6 @@ class AppPages {
     GetPage(name: AppRoutes.form, page: () => const Feedback()),
     GetPage(name: AppRoutes.thanks, page: () => const ThankyouScreen()),
     GetPage(name: AppRoutes.notFound, page: () => const NotFoundScreen()),
+    GetPage(name: AppRoutes.dashboard, page: ()=> const DashboardScreen())
   ];
 }

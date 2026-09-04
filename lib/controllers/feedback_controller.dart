@@ -60,7 +60,7 @@ class FeedbackController extends GetxController {
       },
       fromJson: (json) => PatientDetailModel.fromJson(json),
     );
-    print("Pat Data : ${patData.first.patientName}");
+    // print("Pat Data : ${patData.first.patientName}");
     isLoading.value = false;
   }
 

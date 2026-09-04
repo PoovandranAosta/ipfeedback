@@ -98,13 +98,18 @@ class ApiService {
         final jsonText = nodes.first.text.trim();
         final decoded = jsonDecode(jsonText);
 
-
-
         if (decoded is List &&
             decoded.isNotEmpty &&
             decoded.first is Map &&
             decoded.first.containsKey('status')) {
           return decoded.first['status'].toString();
+        }
+
+        if (decoded is List &&
+            decoded.isNotEmpty &&
+            decoded.first is Map &&
+            decoded.first.containsKey('EnURL')) {
+          return decoded.first['EnURL'].toString();
         }
 
         if (decoded is List &&
@@ -143,6 +148,13 @@ class ApiService {
           if (inner is List &&
               inner.isNotEmpty &&
               inner.first is Map &&
+              inner.first.containsKey('EnURL')) {
+            return inner.first['EnURL'].toString();
+          }
+
+          if (inner is List &&
+              inner.isNotEmpty &&
+              inner.first is Map &&
               inner.first.containsKey('otp')) {
             return inner.first['otp'].toString();
           }
@@ -153,7 +165,6 @@ class ApiService {
               inner.first.containsKey('stat')) {
             return inner.first['stat'].toString();
           }
-
 
           return dString;
         }
@@ -193,8 +204,6 @@ class ApiService {
         final jsonText = nodes.first.text.trim();
         final decoded = jsonDecode(jsonText);
 
-
-
         if (decoded is List &&
             decoded.isNotEmpty &&
             decoded.first is Map &&
@@ -249,7 +258,6 @@ class ApiService {
             return inner.first['stat'].toString();
           }
 
-
           return dString;
         }
       }
@@ -259,6 +267,4 @@ class ApiService {
       throw Exception("HTTP error: $e");
     }
   }
-
-
 }

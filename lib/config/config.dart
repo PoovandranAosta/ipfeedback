@@ -1,6 +1,7 @@
 class Config {
   // Dev
   // static final String envName = "BBONCLOUD";
+  // static final String clientName = "Aosta India";
   // static final String baseUrl = "https://mapps.bboncloud.com/bb15se/";
   // static final String baseUrl2 = "https://mapps.bboncloud.com/";
   // static final String siteUrl = "https://mapps.bboncloud.com/ipfeedback/";
@@ -23,9 +24,15 @@ class Config {
   // static final String siteUrl = "https://bbdemo.bboncloud.com/ipfeedback/";
   // static final String scanUrl = "https://bbdemo.bboncloud.com/ipfeedback/#/info/";
 
+  // NABH
+  // static final String envName = "NABH";
+  // static final String clientName = "Aosta India";
+  // static final String baseUrl = "https://qa.aostasoftware.com/NABHDhS/";
+  // static final String baseUrl2 = "https://qa.aostasoftware.com/";
+  // static final String siteUrl = "https://qa.aostasoftware.com/ipfeedback/";
+  // static final String scanUrl = "https://qa.aostasoftware.com/ipfeedback/#/info/";
+
   // End Points
   static final String connectUrl = "EMRIndia/wsEMR.asmx/Getdataset1";
-
-
 
 }

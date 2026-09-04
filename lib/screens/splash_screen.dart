@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: Color(0xFF1a4fa8),
       body: Center(
         child: Text(
-          'IP Feedback Form',
+          'IP Feedback',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
