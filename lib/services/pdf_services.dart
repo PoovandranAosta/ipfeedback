@@ -1461,8 +1461,8 @@ class PdfServices {
                       // pink band instead of a QR row.
                       pw.Container(
                         height: 180,
-                        color: pinkColor,
                         decoration: pw.BoxDecoration(
+                          color: pinkColor,
                           border: pw.Border(
                             top: pw.BorderSide(color: borderColor),
                           ),
