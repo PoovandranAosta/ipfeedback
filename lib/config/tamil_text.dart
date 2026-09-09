@@ -10,7 +10,7 @@ class TamilTextImage {
   static Future<void> _ensureFontLoaded() async {
     if (_fontLoaded) return;
     final fontData = await rootBundle.load(
-      'assets/fonts/NotoSansTamil-Regular.ttf',
+      'assets/fonts/Nirmala-Bold.ttf',
     );
     final loader = FontLoader(_fontFamily)..addFont(Future.value(fontData));
     await loader.load();
@@ -19,8 +19,8 @@ class TamilTextImage {
 
   static Future<TamilImageResult> render(
       String text, {
-        double fontSize = 15,
-        double maxWidth = 260,
+        double fontSize = 16,
+        double maxWidth = 330,
         double lineHeight = 1.35,
         int color = 0xFF1F1F1F,
         double scale = 3,

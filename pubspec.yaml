@@ -84,10 +84,9 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/fonts/NotoSans-Regular.ttf
-    - assets/fonts/NotoSans-Bold.ttf
-    - assets/fonts/NotoSansTamil-Regular.ttf
-    - assets/fonts/NotoSansTamil-Bold.ttf
+    - assets/fonts/
+
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
