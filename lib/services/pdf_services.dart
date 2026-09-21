@@ -1174,8 +1174,12 @@ class PdfServices {
     }
 
     final engraversMT = await loadFont('assets/fonts/EngraversMt.ttf');
-    final dejavuSerif = await loadFont('assets/fonts/dejavu-serif.condensed-bold.ttf');
-    final bahnSchrift = await loadFont('assets/fonts/Bahnschrift-Condensed.otf');
+    final dejavuSerif = await loadFont(
+      'assets/fonts/dejavu-serif.condensed-bold.ttf',
+    );
+    final bahnSchrift = await loadFont(
+      'assets/fonts/Bahnschrift-Condensed.otf',
+    );
 
     Future<Uint8List> generateQr(String data, Color bgColor) async {
       final qrImage = await QrPainter(
@@ -1344,14 +1348,14 @@ class PdfServices {
 
     final pageFormat = PdfPageFormat.a4;
     const margin = 6.0;
-    const marginTopBottom = 70.0;
+    final marginTopBottom = isWifi == 1 ? 70.0 : 140.0;
     final contentWidth = pageFormat.width - margin * 2;
     final contentHeight = pageFormat.height - marginTopBottom * 2;
 
     pdf.addPage(
       pw.Page(
         pageFormat: pageFormat,
-        margin: const pw.EdgeInsets.only(
+        margin: pw.EdgeInsets.only(
           left: margin,
           right: margin,
           top: marginTopBottom,
@@ -1456,19 +1460,19 @@ class PdfServices {
                       titleEn: 'SCAN FOR ANY ASSISTANCE (OR) FEEDBACK',
                       titleTa: feedbackTamilLabel,
                     ),
-                    if (isWifi == 0) ...[
-                      // No Wi-Fi available for this bed: leave a blank
-                      // pink band instead of a QR row.
-                      pw.Container(
-                        height: 180,
-                        decoration: pw.BoxDecoration(
-                          color: pinkColor,
-                          border: pw.Border(
-                            top: pw.BorderSide(color: borderColor),
-                          ),
-                        ),
-                      ),
-                    ],
+                    // if (isWifi == 0) ...[
+                    //   // No Wi-Fi available for this bed: leave a blank
+                    //   // pink band instead of a QR row.
+                    //   pw.Container(
+                    //     height: 180,
+                    //     decoration: pw.BoxDecoration(
+                    //       color: pinkColor,
+                    //       border: pw.Border(
+                    //         top: pw.BorderSide(color: borderColor),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ],
                   ],
                 ),
               ),
