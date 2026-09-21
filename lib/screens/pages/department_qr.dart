@@ -513,6 +513,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:ipfeedback/models/bed_master_model.dart';
 import 'package:ipfeedback/models/ward_master_model.dart';
+import 'package:ipfeedback/widgets/custom_checkbox.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../controllers/dashboard_controller.dart';
@@ -570,6 +571,11 @@ class QrGenerationScreen extends StatelessWidget {
                           const SizedBox(height: 24),
                         ],
 
+                        if (controller.selectedBed.value != null) ...[
+                          _buildCheckBox(),
+                          const SizedBox(height: 24),
+                        ],
+
                         // Bed selected but backend returned no patient
                         if (controller.selectedWard.value != null &&
                             controller.selectedBed.value != null &&
@@ -603,6 +609,58 @@ class QrGenerationScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildCheckBox() {
+  DashboardController controller = Get.put(DashboardController());
+  return Obx(() {
+    return Row(
+      children: [
+        Expanded(
+          child: CustomCheckBoxItem(
+            title: "WiFi",
+            icon: Icons.wifi,
+            value: controller.checkWifi.value,
+            selectedColor: Colors.blue,
+            onChanged: (value) {
+              print(value);
+              controller.checkWifi.value = value;
+            },
+          ),
+        ),
+
+        const SizedBox(width: 10),
+
+        Expanded(
+          child: CustomCheckBoxItem(
+            title: "IP Feedback",
+            icon: Icons.feedback_outlined,
+            value: controller.checkFeedback.value,
+            selectedColor: Colors.orange,
+            onChanged: (value) {
+              print(value);
+              controller.checkFeedback.value = value;
+            },
+          ),
+        ),
+
+        const SizedBox(width: 10),
+
+        Expanded(
+          child: CustomCheckBoxItem(
+            title: "Food Order",
+            icon: Icons.restaurant_outlined,
+            value: controller.checkFoodOrder.value,
+            selectedColor: Colors.green,
+            onChanged: (value) {
+              print(value);
+              controller.checkFoodOrder.value = value;
+            },
+          ),
+        ),
+      ],
+    );
+  });
 }
 
 /// =======================================================
@@ -1291,7 +1349,6 @@ Widget _buildQrCard(BuildContext context) {
         // ),
         //
         // const SizedBox(height: 22),
-
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(14),
@@ -1307,10 +1364,7 @@ Widget _buildQrCard(BuildContext context) {
                 children: [
                   Icon(Icons.link_rounded, size: 18, color: Color(0xFF0F4CBA)),
                   SizedBox(width: 8),
-                  Text(
-                    "Link",
-                    style: TextStyle(fontWeight: FontWeight.w700),
-                  ),
+                  Text("Link", style: TextStyle(fontWeight: FontWeight.w700)),
                 ],
               ),
               const SizedBox(height: 10),
@@ -1402,7 +1456,7 @@ Widget _buildQrCard(BuildContext context) {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () => controller.generateQrPatient(),
+                onPressed: () => controller.generateQrPatient(context),
                 icon: const Icon(Icons.print),
                 label: const Text(
                   "Print",

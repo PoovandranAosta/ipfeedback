@@ -1160,6 +1160,9 @@ class PdfServices {
     required TamilImageResult foodTamilLabel,
     required TamilImageResult feedbackTamilLabel,
     required int isWifi,
+    required bool checkWifi,
+    required bool checkFeedback,
+    required bool checkFoodOrder,
     // NEW: pass real Wi-Fi QR payload (e.g. a WIFI: connection string or a
     // captive-portal URL) to print an actual scannable QR in the Wi-Fi row,
     // exactly like the reference photo. Leave null to keep the old
@@ -1346,9 +1349,34 @@ class PdfServices {
       );
     }
 
+    // final pageFormat = PdfPageFormat.a4;
+    // const margin = 6.0;
+    // final marginTopBottom = isWifi == 1 ? 70.0 : 140.0;
+    // final contentWidth = pageFormat.width - margin * 2;
+    // final contentHeight = pageFormat.height - marginTopBottom * 2;
+
     final pageFormat = PdfPageFormat.a4;
     const margin = 6.0;
-    final marginTopBottom = isWifi == 1 ? 70.0 : 140.0;
+
+    // Count the sections that are actually displayed.
+    final sectionCount =
+        ((isWifi == 1 && checkWifi) ? 1 : 0) +
+        (checkFoodOrder ? 1 : 0) +
+        (checkFeedback ? 1 : 0);
+
+    // Dynamic top/bottom margin based on number of sections.
+    final double marginTopBottom;
+
+    if (sectionCount == 3) {
+      marginTopBottom = 70.0;
+    } else if (sectionCount == 2) {
+      marginTopBottom = 140.0;
+    } else if (sectionCount == 1) {
+      marginTopBottom = 230.0;
+    } else {
+      marginTopBottom = 230.0;
+    }
+
     final contentWidth = pageFormat.width - margin * 2;
     final contentHeight = pageFormat.height - marginTopBottom * 2;
 
@@ -1434,7 +1462,7 @@ class PdfServices {
                       ),
                     ),
                     pw.Divider(color: borderColor, thickness: 1, height: 1),
-                    if (isWifi == 1) ...[
+                    if (isWifi == 1 && checkWifi) ...[
                       // Wi-Fi row: real QR if wifiQrData was supplied,
                       // otherwise the "stick a sticker here" placeholder.
                       sectionRow(
@@ -1446,20 +1474,24 @@ class PdfServices {
                         titleTa: wifiTamilLabel,
                       ),
                     ],
-                    // Attendant food ordering QR
-                    sectionRow(
-                      bgColor: yellowColor,
-                      qrBytes: foodQrBytes,
-                      titleEn: 'SCAN FOR ATTENDANT FOOD',
-                      titleTa: foodTamilLabel,
-                    ),
-                    // Assistance / feedback QR
-                    sectionRow(
-                      bgColor: greenColor,
-                      qrBytes: feedbackQrBytes,
-                      titleEn: 'SCAN FOR ANY ASSISTANCE (OR) FEEDBACK',
-                      titleTa: feedbackTamilLabel,
-                    ),
+                    if (checkFoodOrder) ...[
+                      // Attendant food ordering QR
+                      sectionRow(
+                        bgColor: yellowColor,
+                        qrBytes: foodQrBytes,
+                        titleEn: 'SCAN FOR ATTENDANT FOOD',
+                        titleTa: foodTamilLabel,
+                      ),
+                    ],
+                    if (checkFeedback) ...[
+                      // Assistance / feedback QR
+                      sectionRow(
+                        bgColor: greenColor,
+                        qrBytes: feedbackQrBytes,
+                        titleEn: 'SCAN FOR ANY ASSISTANCE (OR) FEEDBACK',
+                        titleTa: feedbackTamilLabel,
+                      ),
+                    ],
                     // if (isWifi == 0) ...[
                     //   // No Wi-Fi available for this bed: leave a blank
                     //   // pink band instead of a QR row.

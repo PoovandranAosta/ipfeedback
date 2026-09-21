@@ -204,6 +204,7 @@ import 'package:ipfeedback/models/bed_master_model.dart';
 import 'package:ipfeedback/models/dashboard_patient_model.dart';
 import 'package:ipfeedback/models/food_order_model.dart';
 import 'package:ipfeedback/models/ward_master_model.dart';
+import 'package:ipfeedback/widgets/custom_toast.dart';
 import '../config/config.dart';
 import '../config/tamil_text.dart';
 import '../services/app_utils.dart';
@@ -236,6 +237,10 @@ class DashboardController extends GetxController {
   RxBool urlFetchFailed = false.obs;
 
   RxBool patientNotFound = false.obs;
+
+  RxBool checkWifi = false.obs;
+  RxBool checkFeedback = false.obs;
+  RxBool checkFoodOrder = false.obs;
 
   final AppUtils _appUtils = AppUtils();
   final PdfServices _pdfServices = PdfServices();
@@ -388,19 +393,54 @@ class DashboardController extends GetxController {
     await fetchUrl(patient!.iipid!);
   }
 
-  Future<void> generateQrPatient() async {
+  Future<void> generateQrPatient(BuildContext context) async {
+    
     final patient = selectedPatient.value;
     if (patient == null || patUrl.value.isEmpty) return;
 
+    // No checkbox selected
+    if (!checkWifi.value && !checkFoodOrder.value && !checkFeedback.value) {
+      CustomToast.show(
+        context: context,
+        message: "Please select at least one service.",
+      );
+      // Get.snackbar(
+      //   'Selection Required',
+      //   'Please select at least one service.',
+      //   snackPosition: SnackPosition.BOTTOM,
+      // );
+      return;
+    }
+
+    // 2. Wi-Fi selected, but Wi-Fi is not available for this patient
+    if (checkWifi.value && (patient.wifiFlag ?? 0) == 0) {
+      CustomToast.show(
+        context: context,
+        message: "No Wi-Fi is available for this bed.",
+      );
+
+      // Get.snackbar(
+      //   'Wi-Fi Not Available',
+      //   'No Wi-Fi is available for this ward and bed.',
+      //   snackPosition: SnackPosition.BOTTOM,
+      // );
+      return;
+    }
+
+    // 3. Generate Tamil labels
     final wifiLabel = await TamilTextImage.render(
       'இலவச WiFi சேவைக்கு ஸ்கேன்\nசெய்யவும் (2 GB / தினமும்)',
     );
+
     final foodLabel = await TamilTextImage.render(
       'நோயாளிகளுடன் இருப்பவர்களின் உணவுக்கு ஸ்கேன் செய்யவும்',
     );
+
     final feedbackLabel = await TamilTextImage.render(
       'உதவிக்கு மற்றும் கருத்துக்கள் பகிர\nஸ்கேன் செய்யவும்',
     );
+
+    // 4. Generate PDF
     _pdfServices.qrPdf(
       ward: patient.wardname ?? "",
       bed: patient.bedno ?? "",
@@ -410,7 +450,40 @@ class DashboardController extends GetxController {
       wifiTamilLabel: wifiLabel,
       foodTamilLabel: foodLabel,
       feedbackTamilLabel: feedbackLabel,
-      isWifi: patient.wifiFlag ?? 0
+      isWifi: patient.wifiFlag ?? 0,
+      checkWifi: checkWifi.value,
+      checkFoodOrder: checkFoodOrder.value,
+      checkFeedback: checkFeedback.value,
     );
   }
+
+  // Future<void> generateQrPatient() async {
+  //   final patient = selectedPatient.value;
+  //   if (patient == null || patUrl.value.isEmpty) return;
+
+  //   final wifiLabel = await TamilTextImage.render(
+  //     'இலவச WiFi சேவைக்கு ஸ்கேன்\nசெய்யவும் (2 GB / தினமும்)',
+  //   );
+  //   final foodLabel = await TamilTextImage.render(
+  //     'நோயாளிகளுடன் இருப்பவர்களின் உணவுக்கு ஸ்கேன் செய்யவும்',
+  //   );
+  //   final feedbackLabel = await TamilTextImage.render(
+  //     'உதவிக்கு மற்றும் கருத்துக்கள் பகிர\nஸ்கேன் செய்யவும்',
+  //   );
+
+  //   _pdfServices.qrPdf(
+  //     ward: patient.wardname ?? "",
+  //     bed: patient.bedno ?? "",
+  //     mobileNumber: "+91 80563 70563",
+  //     foodOrderUrl: "${foodOrder.first.cURL}",
+  //     feedbackUrl: patUrl.value,
+  //     wifiTamilLabel: wifiLabel,
+  //     foodTamilLabel: foodLabel,
+  //     feedbackTamilLabel: feedbackLabel,
+  //     isWifi: patient.wifiFlag ?? 0,
+  //     checkWifi: checkWifi.value,
+  //     checkFoodOrder: checkFoodOrder.value,
+  //     checkFeedback: checkFeedback.value
+  //   );
+  // }
 }
